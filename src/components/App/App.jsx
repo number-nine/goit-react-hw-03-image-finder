@@ -1,113 +1,27 @@
 import { Component } from 'react';
-import { nanoid } from 'nanoid';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+// import { nanoid } from 'nanoid';
+// import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-import ContactEditor from 'components/ContactEditor';
-import Filter from 'components/Filter';
-import ContactsList from 'components/ContactsList';
-import Section from 'components/Section';
+import getPictures from 'controllers/api-controller';
 
-import getUsers from '../../controllers/data-controller';
-
-import { Container } from 'components/App/App.styled';
-import { Button } from 'components/common.styled';
+import Searchbar from 'components/Searchbar/Searchbar';
 
 class App extends Component {
   state = {
-    contacts: [],
-    filter: '',
+    request: {
+      query: '',
+      page: 1,
+    },
   };
 
-  addContact = ({ name, number }) => {
-    return new Promise((resolve, reject) => {
-      if (this.isNameUniq(name)) {
-        this.setState(({ contacts }) => {
-          return {
-            contacts: [
-              ...contacts,
-              {
-                id: nanoid(),
-                name: name.trim(),
-                number: number.trim(),
-              },
-            ],
-          };
-        });
-        resolve(`New contact ${name} successfully added`);
-      } else {
-        reject(new Error(`${name} is already in contacts`));
-      }
-    });
-  };
-
-  handleFillPhonebook = () =>
-    getUsers().then(result =>
-      result.forEach(contact => {
-        this.addContact(contact)
-          .then(result => Notify.success(result))
-          .catch(({ message }) => {
-            Notify.failure(message);
-          });
-      })
-    );
-
-  isNameUniq = nameToAdd =>
-    !this.state.contacts
-      .map(({ name }) => name.toLowerCase())
-      .includes(nameToAdd.toLowerCase());
-
-  onChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
-  handleDeleteContact = idToRemove => {
-    this.setState(({ contacts }) => ({
-      contacts: contacts.filter(({ id }) => id !== idToRemove),
-    }));
-    Notify.success('Contact succesfully removed');
-  };
-
-  handleResetFilter = () => {
-    this.setState({ filter: '' });
-  };
-
-  filterContacts = (contacts, filter) => {
-    if (!filter.trim()) {
-      return this.state.contacts;
-    }
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(filter.trim().toLowerCase())
-    );
+  handleQuery = async query => {
+    await this.setState({ request: { query } });
+    console.log(this.state.request);
+    getPictures(this.state.request);
   };
 
   render() {
-    return (
-      <Container>
-       
-        <Button type="button" onClick={this.handleFillPhonebook}>
-          Randomise Data
-        </Button>
-        
-        <Section title="Add Contact"> 
-          <ContactEditor onSubmit={this.addContact} />
-          </Section>
-        
-        <Section title="Filter by Name"> 
-        <Filter
-          filter={this.state.filter}
-          onChange={this.onChange}
-          onReset={this.handleResetFilter}
-          />
-        </Section>
-        <Section title="Contacts List"> 
-        <ContactsList
-          contacts={this.filterContacts(this.state.contacts, this.state.filter)}
-          onClick={this.handleDeleteContact}
-          />
-          </Section>
-      </Container>
-    );
+    return <Searchbar onSubmit={this.handleQuery} />;
   }
 }
 

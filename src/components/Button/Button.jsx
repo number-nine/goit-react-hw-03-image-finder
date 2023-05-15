@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 const Button = () => {
-    return
+    return <button type="button">Load more</button>;
 }
 
 export default Button;
