@@ -2,26 +2,28 @@ import { Component } from 'react';
 // import { nanoid } from 'nanoid';
 // import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-import getPictures from 'controllers/api-controller';
-
-import Searchbar from 'components/Searchbar/Searchbar';
+import Searchbar from 'components/Searchbar';
+import ImageGallery from 'components/ImageGallery';
+// import ImageGalleryItem from 'components/ImageGalleryItem';
 
 class App extends Component {
   state = {
-    request: {
-      query: '',
-      page: 1,
-    },
+    query: '',
   };
 
   handleQuery = async query => {
-    await this.setState({ request: { query } });
-    console.log(this.state.request);
-    getPictures(this.state.request);
+    this.setState({ query });
   };
 
   render() {
-    return <Searchbar onSubmit={this.handleQuery} />;
+    return (
+      <>
+        <Searchbar onSubmit={this.handleQuery} />
+        <ImageGallery query={this.state.query} />
+          {/* <ImageGalleryItem /> */}
+        {/* </ImageGallery> */}
+      </>
+    );
   }
 }
 

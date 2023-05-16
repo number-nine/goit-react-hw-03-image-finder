@@ -1,17 +1,34 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+
+import getPictures from 'controllers/api-controller';
+import ImageGalleryItem from 'components/ImageGalleryItem';
 
 class ImageGallery extends Component {
-  state = {};
+  state = {
+    something: 'hello',
+    request: { query: '', page: 1 },
+  };
+
+  // getPictures(this.state.request);
+  didComponentMount(prevState, nextState) {
+    if (prevState !== this.props.query) {
+
+    }
+
+  }
 
   render() {
-    <ul class="gallery">{this.props.children}</ul>;
+    return (
+      <ul class="gallery">
+        <ImageGalleryItem />
+      </ul>
+    );
   }
 }
 
 export default ImageGallery;
 
-
-ImageGallery.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+// ImageGallery.propTypes = {
+//   children: PropTypes.node.isRequired,
+// };

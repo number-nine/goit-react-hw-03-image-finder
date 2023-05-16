@@ -9,19 +9,13 @@ const options = {
     orientation: 'horizontal',
     safesearch: true,
     per_page: 12,
-    // page: 1,
-    // q: 'cat',
   },
 };
 
-export default async function getPictures({ query, page }) {
-  console.log(query, page);
-  options.params.q = query;
-  options.params.page = page;
-  
+export default async function getPictures({page, query:q}) {
+  options.params = { ...options.params, page, q };
   try {
-    console.log(await axios.get('', options));
-
+    const {data} = await axios.get('', options);
   } catch (error) {
     Notify.info('Remote data unavailable. Parsing local data');
   }

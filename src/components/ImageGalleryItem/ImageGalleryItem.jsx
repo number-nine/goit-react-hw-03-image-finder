@@ -1,11 +1,16 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-const ImageGallery = () => {
+const ImageGalleryItem = () => {
     return (
       <li class="gallery-item">
         <img src="" alt="" />
+        text
       </li>
     );
 };
 
-export default ImageGallery;
+// ImageGalleryItem.propTypes = {
+
+// }
+
+export default ImageGalleryItem;
