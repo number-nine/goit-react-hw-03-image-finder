@@ -15,12 +15,12 @@ class ImageGallery extends Component {
     console.log('Gallery update');
 
     if (this.state.request.page !== prevState.request.page) {
-      console.log(`do fetch next page for ${this.state.request.query}`);
+      console.log('page changes');
       this.setState({ currentData: { data: this.state.request.page } });
     } else if (this.state.currentData !== prevState.currentData) {
       console.log('data changes');
     } else {
-      console.log('somethig changes but not page and data');
+      console.log('somethig changes but not page and data - query, new or same but new');
     }
 
     // if (this.state.request.query)
