@@ -25,16 +25,16 @@ class ImageGallery extends Component {
 
     // if (this.state.request.query)
 
-    if (this.state.request.query !== this.props.query) {
-      console.log('if prop comes set query to state and page to 1');
+    // if (this.state.request.query !== this.props.query) {
+    //   console.log('if prop comes set query to state and page to 1');
 
-      this.setState(prevState => ({
-        request: {
-          ...prevState.request,
-          query: this.props.query,
-        },
-      }));
-    }
+    //   this.setState(prevState => ({
+    //     request: {
+    //       ...prevState.request,
+    //       query: this.props.query,
+    //     },
+    //   }));
+    // }
   }
 
   componentDidMount() {
