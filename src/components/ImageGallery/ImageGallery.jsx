@@ -7,7 +7,7 @@ import Button from 'components/Button';
 
 class ImageGallery extends Component {
   state = {
-    currentData: 'hello',
+    currentData: null,
     request: { query: '', page: 1 },
   };
 
