@@ -15,8 +15,9 @@ const options = {
 export default async function getPictures({page, query:q}) {
   options.params = { ...options.params, page, q };
   try {
-    const {data} = await axios.get('', options);
+    const { data } = await axios.get('', options);
+    return data;
   } catch (error) {
-    Notify.info('Remote data unavailable. Parsing local data');
+    Notify.info('Remote data unavailable. Please try again later.');
   }
 }

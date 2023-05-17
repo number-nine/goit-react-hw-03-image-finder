@@ -11,16 +11,33 @@ class App extends Component {
     query: '',
   };
 
-  handleQuery = async query => {
+  handleQuery = query => {
     this.setState({ query });
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('App update');
+  }
+
+  componentDidMount() {
+    console.log('app mount');
+  }
+
+  componentWillUnmount() {
+    console.log('app unmount');
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('shouldComponentUpdate app');
+  //   return this.state.query !== nextState.query
+  // }
 
   render() {
     return (
       <>
         <Searchbar onSubmit={this.handleQuery} />
         <ImageGallery query={this.state.query} />
-          {/* <ImageGalleryItem /> */}
+        {/* <ImageGalleryItem /> */}
         {/* </ImageGallery> */}
       </>
     );

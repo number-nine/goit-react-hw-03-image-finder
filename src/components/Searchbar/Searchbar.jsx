@@ -7,28 +7,40 @@ class Searchbar extends Component {
     query: '',
   };
 
+  componentDidUpdate() {
+    console.log('Searchbar update');
+  }
+
+  componentDidMount() {
+    console.log('Searchbar mount');
+  }
+
+  componentWillUnmount() {
+    console.log('Searchbar unmount');
+  }
+
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-    };
-    
-    handleSubmit = e => {
-        e.preventDefault();
-        if (this.isQueryValid()) {
-            this.props.onSubmit(this.state.query.trim());
-            this.clearQuery();
-            return;
-        }
-        Notify.failure('Enter valid query');
-    }
+  };
 
-    isQueryValid = () => {
-        return this.state.query.trim() !== '' ? true : false 
+  handleSubmit = e => {
+    e.preventDefault();
+    if (this.isQueryValid()) {
+      this.props.onSubmit(this.state.query.trim());
+      this.clearQuery();
+      return;
     }
+    Notify.failure('Enter valid query');
+  };
 
-    clearQuery = () => {
-        this.setState({ query: ''});
-    }
+  isQueryValid = () => {
+    return this.state.query.trim() !== '' ? true : false;
+  };
+
+  clearQuery = () => {
+    this.setState({ query: '' });
+  };
 
   render() {
     return (
