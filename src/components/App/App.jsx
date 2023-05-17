@@ -4,7 +4,6 @@ import { Component } from 'react';
 
 import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
-// import ImageGalleryItem from 'components/ImageGalleryItem';
 
 class App extends Component {
   state = {
@@ -27,18 +26,11 @@ class App extends Component {
     console.log('app unmount');
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log('shouldComponentUpdate app');
-  //   return this.state.query !== nextState.query
-  // }
-
   render() {
     return (
       <>
         <Searchbar onSubmit={this.handleQuery} />
         <ImageGallery query={this.state.query} />
-        {/* <ImageGalleryItem /> */}
-        {/* </ImageGallery> */}
       </>
     );
   }

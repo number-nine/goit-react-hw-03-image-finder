@@ -1,78 +1,81 @@
 import { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-// import getPictures from 'controllers/api-controller';
+import getPictures from 'controllers/api-controller';
 import ImageGalleryItem from 'components/ImageGalleryItem';
 import Button from 'components/Button';
 
 class ImageGallery extends Component {
   state = {
     currentData: null,
-    request: { query: '', page: 1 },
+    query: '',
+    page: 1,
+    total: 0,
+    perPage: 12,
+    canLoadMore: false,
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log('Gallery update');
+  async componentDidUpdate(_, prevState) {
 
-    if (this.state.request.page !== prevState.request.page) {
-      console.log('page changes');
-      this.setState({ currentData: { data: this.state.request.page } });
-    } else if (this.state.currentData !== prevState.currentData) {
-      console.log('data changes');
-    } else {
-      console.log('somethig changes but not page and data - query, new or same but new');
+    if (
+      prevState.page === this.state.page &&
+      prevState.currentData === this.state.currentData
+    ) {
+
+      const { hits, total } = await getPictures({
+        page: 1,
+        query: this.props.query,
+        perPage: this.state.perPage,
+      });
+      this.setState({
+        currentData: hits,
+        page: 1,
+        query: this.props.query,
+        total,
+        canLoadMore: total > this.state.perPage,
+      });
+      return;
     }
 
-    // if (this.state.request.query)
-
-    // if (this.state.request.query !== this.props.query) {
-    //   console.log('if prop comes set query to state and page to 1');
-
-    //   this.setState(prevState => ({
-    //     request: {
-    //       ...prevState.request,
-    //       query: this.props.query,
-    //     },
-    //   }));
-    // }
-  }
-
-  componentDidMount() {
-    console.log('Gallery mount');
-  }
-
-  componentWillUnmount() {
-    console.log('Gallery unmount');
+    if (this.state.page > prevState.page) {
+      const { hits } = await getPictures({
+        page: this.state.page,
+        query: this.state.query,
+        perPage: this.state.perPage,
+      });
+      this.setState({
+        currentData: [...this.state.currentData, ...hits],
+        canLoadMore:
+          this.state.total - this.state.perPage * this.state.page >
+          0,
+      });
+      return;
+    }
   }
 
   handleLoadMore = () => {
-    // this.setState({ currentData: 'request' });
-    this.setState(prevState => ({
-      request: {
-        ...prevState.request,
-        page: prevState.request.page + 1,
-      },
-    }));
     console.log('LoadMore handler');
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
   };
-
-  // // getPictures(this.state.request);
-  // didComponentMount(prevProps, prevState) {
-  //   // if (prevState !== this.props.query) {
-
-  //   // }
-
-  //   console.log(`imageGallery did mount`);
-
-  // }
 
   render() {
     return (
       <>
         <ul className="gallery">
-          <ImageGalleryItem />
+          {this.state.currentData &&
+            this.state.currentData.map(picture => (
+              <ImageGalleryItem
+                key={picture.id}
+                src={picture.webformatURL}
+                alt={picture.tags}
+                image={picture.largeImageURL}
+              />
+            ))}
         </ul>
-        <Button onLoadMore={this.handleLoadMore} />
+        {this.state.canLoadMore &&
+        <Button onLoadMore={this.handleLoadMore} />}
       </>
     );
   }
@@ -80,6 +83,6 @@ class ImageGallery extends Component {
 
 export default ImageGallery;
 
-// ImageGallery.propTypes = {
-//   children: PropTypes.node.isRequired,
-// };
+ImageGallery.propTypes = {
+  query: PropTypes.string.isRequired,
+};

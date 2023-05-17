@@ -8,12 +8,11 @@ const options = {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
-    per_page: 12,
   },
 };
 
-export default async function getPictures({page, query:q}) {
-  options.params = { ...options.params, page, q };
+export default async function getPictures({ page, query: q, perPage: per_page }) {
+  options.params = { ...options.params, page, q, per_page };
   try {
     const { data } = await axios.get('', options);
     return data;
