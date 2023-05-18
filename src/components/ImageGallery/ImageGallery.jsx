@@ -25,12 +25,16 @@ class ImageGallery extends Component {
     canLoadMore: false,
   };
 
-  async componentDidUpdate(_, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
+    // if (this.props.isLoading !== prevProps.isLoading) {
+    //   return;
+    // }
+    console.log(this.props === prevProps);
+
     if (
       prevState.page === this.state.page &&
       prevState.currentData === this.state.currentData
     ) {
-
       const { hits, total } = await getPictures({
         page: 1,
         query: this.props.query,
@@ -44,6 +48,10 @@ class ImageGallery extends Component {
         total,
         canLoadMore: total > this.state.perPage,
       });
+
+        // this.props.onLoadingComplete();
+    
+
       return;
     }
 
@@ -58,12 +66,15 @@ class ImageGallery extends Component {
         canLoadMore:
           this.state.total - this.state.perPage * this.state.page > 0,
       });
+
+        // this.props.onLoadingComplete();
+
       return;
     }
   }
 
   handleLoadMore = () => {
-    console.log('LoadMore handler');
+    // console.log('LoadMore handler');
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
@@ -83,7 +94,12 @@ class ImageGallery extends Component {
               />
             ))}
         </ul>
-        {this.state.canLoadMore && <Button onLoadMore={this.handleLoadMore} />}
+        {this.state.canLoadMore && (
+          <Button
+            onLoadMore={this.handleLoadMore}
+            // isLoading={this.props.isLoading}
+          />
+        )}
       </>
     );
   }

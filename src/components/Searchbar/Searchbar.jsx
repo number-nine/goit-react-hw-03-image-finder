@@ -36,7 +36,11 @@ class Searchbar extends Component {
     return (
       <header className={css.Searchbar}>
         <form className={css.SearchForm} onSubmit={this.handleSubmit}>
-          <button type="submit" className={css.SearchFormButton}>
+          <button
+            type="submit"
+            className={css.SearchFormButton}
+            disabled={this.props.isLoading}
+          >
             <span className={css.SearchFormButtonLabel}>Search</span>
           </button>
 
@@ -49,6 +53,7 @@ class Searchbar extends Component {
             name="query"
             value={this.state.query}
             onChange={this.handleChange}
+            // disabled={this.props.isLoading}
           />
         </form>
       </header>

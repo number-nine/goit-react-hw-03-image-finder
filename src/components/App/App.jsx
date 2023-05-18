@@ -9,17 +9,30 @@ import css from './App.module.css';
 class App extends Component {
   state = {
     query: '',
+    isLoading: false,
   };
 
   handleQuery = query => {
-    this.setState({ query });
+    this.setState({
+      query,
+      // isLoading: true,
+    });
   };
 
+  handleLoadingComplete = () => {
+    this.setState({ isLoading: false, });
+  }
+
   render() {
+    const { query, isLoading } = this.state;
     return (
       <div className={css.App}>
-        <Searchbar onSubmit={this.handleQuery} />
-        <ImageGallery query={this.state.query} />
+        <Searchbar onSubmit={this.handleQuery} isLoading={isLoading} />
+        <ImageGallery
+          query={query}
+          isLoading={isLoading}
+          onLoadingComplete={this.handleLoadingComplete}
+        />
       </div>
     );
   }
