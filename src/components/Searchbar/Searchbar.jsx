@@ -2,22 +2,12 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
+import css from './Searchbar.module.css';
+
 class Searchbar extends Component {
   state = {
     query: '',
   };
-
-  componentDidUpdate() {
-    console.log('Searchbar update');
-  }
-
-  componentDidMount() {
-    console.log('Searchbar mount');
-  }
-
-  componentWillUnmount() {
-    console.log('Searchbar unmount');
-  }
 
   handleChange = e => {
     const { name, value } = e.target;
@@ -44,14 +34,14 @@ class Searchbar extends Component {
 
   render() {
     return (
-      <header className="searchbar">
-        <form className="form" onSubmit={this.handleSubmit}>
-          <button type="submit" className="button">
-            <span className="button-label">Search</span>
+      <header className={css.Searchbar}>
+        <form className={css.SearchForm} onSubmit={this.handleSubmit}>
+          <button type="submit" className={css.SearchFormButton}>
+            <span className={css.SearchFormButtonLabel}>Search</span>
           </button>
 
           <input
-            className="input"
+            className={css.SearchFormInput}
             type="text"
             autoComplete="off"
             autoFocus

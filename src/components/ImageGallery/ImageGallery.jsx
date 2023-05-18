@@ -4,6 +4,16 @@ import PropTypes from 'prop-types';
 import getPictures from 'controllers/api-controller';
 import ImageGalleryItem from 'components/ImageGalleryItem';
 import Button from 'components/Button';
+import css from './ImageGallery.module.css';
+
+// const INITIAL_STATE = {
+//   currentData: null,
+//   query: '',
+//   page: 1,
+//   total: 0,
+//   perPage: 12,
+//   canLoadMore: false,
+// };
 
 class ImageGallery extends Component {
   state = {
@@ -16,7 +26,6 @@ class ImageGallery extends Component {
   };
 
   async componentDidUpdate(_, prevState) {
-
     if (
       prevState.page === this.state.page &&
       prevState.currentData === this.state.currentData
@@ -27,10 +36,11 @@ class ImageGallery extends Component {
         query: this.props.query,
         perPage: this.state.perPage,
       });
+
       this.setState({
         currentData: hits,
-        page: 1,
         query: this.props.query,
+        page: 1,
         total,
         canLoadMore: total > this.state.perPage,
       });
@@ -46,8 +56,7 @@ class ImageGallery extends Component {
       this.setState({
         currentData: [...this.state.currentData, ...hits],
         canLoadMore:
-          this.state.total - this.state.perPage * this.state.page >
-          0,
+          this.state.total - this.state.perPage * this.state.page > 0,
       });
       return;
     }
@@ -63,7 +72,7 @@ class ImageGallery extends Component {
   render() {
     return (
       <>
-        <ul className="gallery">
+        <ul className={css.ImageGallery}>
           {this.state.currentData &&
             this.state.currentData.map(picture => (
               <ImageGalleryItem
@@ -74,8 +83,7 @@ class ImageGallery extends Component {
               />
             ))}
         </ul>
-        {this.state.canLoadMore &&
-        <Button onLoadMore={this.handleLoadMore} />}
+        {this.state.canLoadMore && <Button onLoadMore={this.handleLoadMore} />}
       </>
     );
   }
