@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import getPictures from 'controllers/api-controller';
 import ImageGalleryItem from 'components/ImageGalleryItem';
 import Button from 'components/Button';
+import Loader from 'components/Loader';
 import css from './ImageGallery.module.css';
 
 // const INITIAL_STATE = {
@@ -26,10 +27,16 @@ class ImageGallery extends Component {
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    // if (this.props.isLoading !== prevProps.isLoading) {
-    //   return;
-    // }
-    console.log(this.props === prevProps);
+    // console.log(`--------start didUpdate:`);
+    // console.log(`prevProps request: ${prevProps.query}`);
+    // console.log(`prevProps isLoading: ${prevProps.isLoading}`);
+    // console.log(`currentProps: request: ${this.props.query}`);
+    // console.log(`currentProps: isLoading: ${this.props.isLoading}`);
+    // console.log(`--------`);
+    // console.log(`prevState request: ${prevState.query}`);
+    // console.log(`prevState page: ${prevState.page}`);
+    // console.log(`currentState request: ${this.state.query}`);
+    // console.log(`currentState page: ${this.state.page}`);
 
     if (
       prevState.page === this.state.page &&
@@ -49,8 +56,7 @@ class ImageGallery extends Component {
         canLoadMore: total > this.state.perPage,
       });
 
-        // this.props.onLoadingComplete();
-    
+      this.props.onLoadingComplete();
 
       return;
     }
@@ -67,17 +73,17 @@ class ImageGallery extends Component {
           this.state.total - this.state.perPage * this.state.page > 0,
       });
 
-        // this.props.onLoadingComplete();
+      this.props.onLoadingComplete();
 
       return;
     }
   }
 
   handleLoadMore = () => {
-    // console.log('LoadMore handler');
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
+    this.props.onLoadingStart();
   };
 
   render() {
@@ -97,9 +103,10 @@ class ImageGallery extends Component {
         {this.state.canLoadMore && (
           <Button
             onLoadMore={this.handleLoadMore}
-            // isLoading={this.props.isLoading}
+            isLoading={this.props.isLoading}
           />
         )}
+        {this.props.isLoading && <Loader />}
       </>
     );
   }

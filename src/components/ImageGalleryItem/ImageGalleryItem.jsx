@@ -16,7 +16,6 @@ class ImageGalleryItem extends Component {
 }
 
   handleModalOpen = () => {
-    // console.log('open modal pressed');
     this.setState({ isModalShown: true });
   };
 

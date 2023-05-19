@@ -15,13 +15,19 @@ class App extends Component {
   handleQuery = query => {
     this.setState({
       query,
-      // isLoading: true,
+    });
+    this.setLoadingStatus();
+  };
+
+  setLoadingStatus = () => {
+    this.setState({
+      isLoading: true,
     });
   };
 
-  handleLoadingComplete = () => {
-    this.setState({ isLoading: false, });
-  }
+  unsetLoadingStatus = () => {
+    this.setState({ isLoading: false });
+  };
 
   render() {
     const { query, isLoading } = this.state;
@@ -31,7 +37,8 @@ class App extends Component {
         <ImageGallery
           query={query}
           isLoading={isLoading}
-          onLoadingComplete={this.handleLoadingComplete}
+          onLoadingStart={this.setLoadingStatus}
+          onLoadingComplete={this.unsetLoadingStatus}
         />
       </div>
     );

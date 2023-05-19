@@ -8,7 +8,7 @@ const Button = ({ onLoadMore, isLoading }) => {
       type="button"
       className={css.Button}
       onClick={onLoadMore}
-      // disabled={isLoading}
+      disabled={isLoading}
     >
       Load more
     </button>

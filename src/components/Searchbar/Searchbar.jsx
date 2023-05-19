@@ -53,7 +53,7 @@ class Searchbar extends Component {
             name="query"
             value={this.state.query}
             onChange={this.handleChange}
-            // disabled={this.props.isLoading}
+            disabled={this.props.isLoading}
           />
         </form>
       </header>
