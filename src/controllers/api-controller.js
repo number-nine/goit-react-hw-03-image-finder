@@ -17,6 +17,6 @@ export default async function getPictures({ page, query: q, perPage: per_page })
     const { data } = await axios.get('', options);
     return data;
   } catch (error) {
-    Notify.info('Remote data unavailable. Please try again later.');
+    Notify.info(`Remote data unavailable. ${error.message}. Please try again later.`);
   }
 }

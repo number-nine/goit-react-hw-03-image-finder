@@ -10,10 +10,10 @@ class ImageGalleryItem extends Component {
   };
 
   handleModalClose = e => {
-  if  (e.target === e.currentTarget)  {
-    this.setState({ isModalShown: false, });
-  }
-}
+    // if (e.target === e.currentTarget) {
+    this.setState({ isModalShown: false });
+    // }
+  };
 
   handleModalOpen = () => {
     this.setState({ isModalShown: true });
@@ -31,11 +31,7 @@ class ImageGalleryItem extends Component {
           onClick={this.handleModalOpen}
         />
         {isModalShown && (
-          <Modal
-            alt={alt}
-            closeHandler={this.handleModalClose}
-            {...transitProps}
-          />
+          <Modal alt={alt} onClose={this.handleModalClose} {...transitProps} />
         )}
       </li>
     );

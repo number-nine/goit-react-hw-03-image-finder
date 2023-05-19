@@ -2,9 +2,12 @@
 
 import css from './Loader.module.css';
 import { ThreeCircles } from 'react-loader-spinner';
+import { createPortal } from 'react-dom';
 
-const Loader = ({ image }) => {
-  return (
+const modalRoot = document.querySelector('#modal-root');
+
+const Loader = () => {
+  return createPortal(
     <div className={css.Overlay}>
       <ThreeCircles
         height="160"
@@ -18,7 +21,8 @@ const Loader = ({ image }) => {
         innerCircleColor=""
         middleCircleColor=""
       />
-    </div>
+    </div>,
+    modalRoot
   );
 };
 
